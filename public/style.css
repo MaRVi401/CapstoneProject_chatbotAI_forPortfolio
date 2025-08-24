@@ -1,0 +1,409 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Reset dan Pengaturan Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #1c1e21;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar {
+    background-color: #103E31;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #103E31;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.nav-links a {
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: color 0.3s;
+    color: #b0d3cb;
+}
+
+.nav-links a:hover {
+    color: #ffffff;
+}
+
+.nav-icons i {
+    font-size: 1.2rem;
+    margin-left: 20px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.main-content {
+    background-color: #103E31;
+    color: #ffffff;
+    padding: 80px 0 60px 0;
+    margin-bottom: 0;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.profile-sidebar {
+    text-align: center;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    object-fit: cover;
+}
+
+.profile-sidebar h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.profile-sidebar h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #b0d3cb;
+    margin-bottom: 15px;
+}
+
+.profile-sidebar .title, .profile-sidebar .company {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.social-links {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-links a {
+    color: #ffffff;
+    font-size: 1.5rem;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.social-links a:hover {
+    color: #8ee0c6;
+    transform: translateY(-3px);
+}
+
+.profile-details h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #3a6b5a;
+}
+
+.about-me p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    text-align: justify;
+}
+
+.details-grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.interests ul, .education ul {
+    list-style: none;
+    padding: 0;
+}
+
+.interests ul li {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 20px;
+    color: #e0e0e0;
+}
+
+.interests ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #8ee0c6;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.education ul li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.education ul li i {
+    font-size: 1.2rem;
+    color: #8ee0c6;
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+.education ul li div {
+    display: flex;
+    flex-direction: column;
+}
+
+.education ul li strong {
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: #ffffff;
+}
+
+.education ul li span {
+    color: #c0c0c0;
+}
+
+footer {
+    background-color: #103E31;
+    color: #a0c3b9;
+    padding: 30px 0;
+    margin-top: 0;
+}
+
+footer p {
+    text-align: center;
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* Gaya untuk Chatbot Pop-up */
+.open-chatbot-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #8ee0c6;
+    color: #103E31;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.open-chatbot-btn:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    height: 500px;
+    background-color: #1a4d40;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.chatbot-popup.active {
+    transform: scale(1);
+}
+
+.chatbot-header {
+    background-color: #103E31;
+    color: #ffffff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3a6b5a;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.chatbot-header .close-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #245749;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #1a4d40;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #3a7a65;
+    border-radius: 10px;
+}
+
+.message {
+    padding: 12px 18px;
+    border-radius: 20px;
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.message.user {
+    background-color: #2b5c4d;
+    color: #ffffff;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.message.ai {
+    background-color: #8ee0c6;
+    color: #103E31;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+#chat-form {
+    display: flex;
+    padding: 15px;
+    gap: 10px;
+    background-color: #1a4d40;
+}
+
+#chat-input {
+    flex-grow: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background-color: #2b5c4d;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+#chat-input:focus {
+    background-color: #3a7a65;
+}
+
+#chat-input::placeholder {
+    color: #a0c3b9;
+}
+
+#chat-form button {
+    background-color: #8ee0c6;
+    color: #103E31;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#chat-form button:hover {
+    background-color: #a0c3b9;
+}
+
+/* Responsif */
+@media (max-width: 992px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    .profile-sidebar {
+        padding-bottom: 40px;
+        border-bottom: 1px solid #3a6b5a;
+    }
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    .chatbot-popup {
+        width: 90%;
+        bottom: 15px;
+        right: 5%;
+        height: 80%;
+    }
+}
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    .container {
+        padding: 0 15px;
+    }
+    .profile-sidebar h1 {
+        font-size: 1.8rem;
+    }
+    .chatbot-popup {
+        height: 70%;
+    }
+}

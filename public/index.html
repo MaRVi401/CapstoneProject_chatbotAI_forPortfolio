@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <main class="main-content">
+        <div class="container portfolio-grid">
+            <aside class="profile-sidebar">
+                <div class="profile-picture">
+                    <img src="profile.jpg" alt="Ini Profile Pengguna">
+                </div>
+                <h1>Ahmad Yassin</h1>
+                <h2>أحمد ياسين</h2>
+                <p class="title">Full Stack Developer <br> & <br> Junior Cyber Security</p>
+                <div class="social-links">
+                    <a href="https://github.com/MaRVi401" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ahmadyassin-pm/" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="http://wa.me/+6281808687121" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://x.com/Skitenztsk" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://www.youtube.com/@simpleeducation1224" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </aside>
+
+            <section class="profile-details">
+                <div class="about-me">
+                    <h3>About Me</h3>
+                    <p>
+                        A Full-Stack Developer specializing in Laravel, with a strong focus on building robust web
+                        applications by mitigating vulnerabilities from the outset. I am proactive and highly adaptable,
+                        consistently blending my development and cyber security expertise to create secure and reliable
+                        digital solutions. I am always eager to learn and master new technologies to solve project
+                        challenges effectively.
+                    </p>
+                    <br>
+                    <br>
+                </div>
+
+                <div class="details-grid">
+                    <div class="interests">
+                        <h3>Interests</h3>
+                        <ul>
+                            <li>Artificial Intelligence</li>
+                            <li>Secure Software Architecture</li>
+                            <li>DevSecOps Culture & Automation</li>
+                            <li>Secure API Design & Development</li>
+                            <li>Cloud Native Technologies & Security</li>
+                        </ul>
+                    </div>
+
+                    <div class="education">
+                        <h3>Education</h3>
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <div>
+                                    <strong>Software Engineering</strong>
+                                    <span>Politeknik Negeri Indramayu</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Ahmad Yassin.</p>
+        </div>
+    </footer>
+
+    <button id="open-chatbot-btn" class="open-chatbot-btn">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <div id="chatbot-popup" class="chatbot-popup">
+        <div class="chatbot-header">
+            <h3>Tanya Saya!</h3>
+            <button id="close-chatbot-btn" class="close-btn">&times;</button>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Tulis pertanyaanmu di sini..." required>
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
