@@ -45,7 +45,7 @@ Ikuti langkah-langkah di bawah ini untuk menjalankan proyek di komputer lokal ka
 5.  Karena arsitektur proyek ini dirancang untuk Netlify Functions, kamu tidak bisa menjalankannya secara langsung dengan `node index.js`. Sebagai gantinya, kamu bisa menguji serverless functions secara lokal menggunakan **Netlify CLI**.
     * Instal Netlify CLI: `npm install -g netlify-cli`
     * Jalankan server lokal: `netlify dev`
-6.  Buka browser dan kunjungi `http://localhost:8888` untuk melihat proyek berjalan.
+6.  Buka browser dan kunjungi `http://localhost:(port)` untuk melihat proyek berjalan.
 
 ---
 
@@ -66,4 +66,4 @@ Proyek ini dirancang untuk di-deploy dengan mudah ke Netlify.
 * Full Stack Developer & Junior Cyber Security
 * Mahasiswa Software Engineering dari Politeknik Negeri Indramayu
 
-Proyek ini adalah demonstrasi keahlian saya dalam pengembangan web yang aman dan integrasi teknologi AI. Semoga bermanfaat dan bisa masuk nominasi 20 besar.
+Proyek ini adalah demonstrasi keahlian saya dalam pengembangan web yang aman dan integrasi teknologi AI IBM Granite. Semoga bermanfaat dan bisa masuk nominasi 20 besar, wkwkwkwkwkwk.
