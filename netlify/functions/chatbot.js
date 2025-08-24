@@ -1,21 +1,25 @@
-import express from 'express';
 import Replicate from 'replicate';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
-const app = express();
-const port = process.env.PORT || 3000;
-
-app.use(express.json());
-app.use(express.static('public')); // Serving static files from 'public' folder
-
+// Inisialisasi Replicate SDK
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 
-app.post('/chat', async (req, res) => {
-  const { message } = req.body;
-  
+// Handler utama untuk Netlify Function
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
+    };
+  }
+
+  // Parse body dari permintaan HTTP
+  const { message } = JSON.parse(event.body);
+
   // Prompt yang lebih detail dan spesifik
   const prompt = `Anda adalah chatbot untuk portofolio seorang profesional bernama Ahmad Yassin (أحمد ياسين).
   
@@ -33,7 +37,7 @@ app.post('/chat', async (req, res) => {
   Anda harus menjawab pertanyaan pengguna berdasarkan informasi di atas, menjaga nada profesional dan ramah. Jika pertanyaan pengguna berada di luar cakupan informasi ini, berikan respons yang sopan dan relevan.
   
   Pertanyaan pengguna: "${message}"`;
-  
+
   try {
     const output = await replicate.run(
       "ibm-granite/granite-3.3-8b-instruct:3ff9e6e20ff1f31263bf4f36c242bd9be1acb2025122daeefe2b06e883df0996",
@@ -45,16 +49,24 @@ app.post('/chat', async (req, res) => {
         },
       }
     );
-    
+
     const aiResponse = output.join('');
-    res.json({ reply: aiResponse });
     
+    // Kembalikan respons dalam format Netlify Function
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ reply: aiResponse }),
+    };
+
   } catch (error) {
     console.error('Error calling Replicate API:', error);
-    res.status(500).json({ error: 'Terjadi kesalahan saat berkomunikasi dengan AI.' });
-  }
-});
 
-app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
-});
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Terjadi kesalahan saat berkomunikasi dengan AI.' }),
+    };
+  }
+};
