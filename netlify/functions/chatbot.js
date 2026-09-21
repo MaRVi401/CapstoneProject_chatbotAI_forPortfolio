@@ -1,7 +1,8 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { GoogleGenAI } = require('@google/genai');
 require('dotenv').config();
 
 exports.handler = async (event, context) => {
+  // Hanya menerima HTTP Method POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -9,13 +10,14 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // 1. Validasi API Key sebelum memanggil SDK
+  // Ambil API Key murni dari environment variable
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey || apiKey.trim() === '') {
-    console.error('ERROR: GEMINI_API_KEY tidak ditemukan!');
+
+  if (!apiKey) {
+    console.error('ERROR: GEMINI_API_KEY tidak ditemukan di environment variables.');
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'API Key belum terkonfigurasi dengan benar.' }),
+      body: JSON.stringify({ error: 'API Key Gemini belum terkonfigurasi di server.' }),
     };
   }
 
@@ -26,14 +28,14 @@ exports.handler = async (event, context) => {
   } catch (err) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'Invalid JSON body' }),
+      body: JSON.stringify({ error: 'Format JSON body tidak valid' }),
     };
   }
 
   if (!message) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'Message is required' }),
+      body: JSON.stringify({ error: 'Pesan tidak boleh kosong' }),
     };
   }
 
@@ -53,40 +55,40 @@ Edukasi: Software Engineering dari Politeknik Negeri Indramayu.
 Anda harus menjawab pertanyaan pengguna berdasarkan informasi di atas, menjaga nada profesional dan ramah. Jika pertanyaan pengguna berada di luar cakupan informasi ini, berikan respons yang sopan dan relevan.`;
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
+    // Inisialisasi GoogleGenAI SDK terbaru
+    const ai = new GoogleGenAI({ apiKey: apiKey });
+
+    // Memanggil model gemini-3.6-flash
+    const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
-      systemInstruction: systemInstruction,
-      generationConfig: {
+      contents: message,
+      config: {
+        systemInstruction: systemInstruction,
         maxOutputTokens: 512,
         temperature: 0.6,
       },
     });
 
-    // 2. Bungkus pemanggilan API dengan Promise Timeout (8 detik)
-    const generateContentPromise = model.generateContent(message);
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Gemini API Request Timeout')), 8000)
-    );
-
-    const result = await Promise.race([generateContentPromise, timeoutPromise]);
-    const response = await result.response;
-    const aiResponse = response.text();
-
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reply: aiResponse }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({ reply: response.text }),
     };
 
   } catch (error) {
     console.error('=== GEMINI ERROR DETAIL ===');
-    console.error(error.message || error);
+    console.error(error);
     console.error('===========================');
 
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message || 'Terjadi kesalahan pada server AI.' }),
+      body: JSON.stringify({
+        error: 'Terjadi kesalahan saat menghubungi API.',
+        details: error.message || String(error),
+      }),
     };
   }
 };
