@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "netlify dev",
+    "start": "netlify dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,8 +12,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "replicate": "^1.1.0"
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "netlify-cli": "^27.8.0"
   }
 }
