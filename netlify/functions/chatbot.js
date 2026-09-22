@@ -9,13 +9,34 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // 1. Guard check untuk API Key
+  // =========================================================================
+  // TOGGLE MODE UJI COBA (MOCK MODE)
+  // Ubah ke 'false' agar terhubung ke Google Gemini API secara langsung
+  // =========================================================================
+  const MOCK_MODE = false;
+
+  if (MOCK_MODE) {
+    const mockReply = `Halo! Saya adalah asisten virtual untuk portofolio **Ahmad Yassin (أحمد ياسين)**.`;
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({ reply: mockReply }),
+    };
+  }
+
+  // =========================================================================
+  // KODE EKSEKUSI API GEMINI ASLI
+  // =========================================================================
   const apiKey = process.env.GEMINI_API_KEY;
+
   if (!apiKey || apiKey.trim() === '') {
     console.error('=== ERROR: GEMINI_API_KEY tidak terbaca oleh Netlify CLI! ===');
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'GEMINI_API_KEY belum terdeteksi di environment lokal.' }),
+      body: JSON.stringify({ error: 'GEMINI_API_KEY belum terdeteksi di environment.' }),
     };
   }
 
@@ -50,7 +71,10 @@ Keahlian & Minat:
 
 Edukasi: Software Engineering dari Politeknik Negeri Indramayu.
 
-Anda harus menjawab pertanyaan pengguna berdasarkan informasi di atas, menjaga nada profesional dan ramah. Jika pertanyaan pengguna berada di luar cakupan informasi ini, berikan respons yang sopan dan relevan.`;
+ATURAN FORMATTING RESPONS:
+1. Gunakan baris baru (line break) yang jelas sebelum dan sesudah list/bullet points.
+2. Gunakan tanda strip (-) untuk bullet points agar tampilan Markdown rapi.
+3. Jawab pertanyaan pengguna berdasarkan informasi di atas dengan ramah dan profesional.`;
 
   try {
     const ai = new GoogleGenAI({ apiKey: apiKey });

@@ -36,7 +36,7 @@ chatForm.addEventListener('submit', async (e) => {
         });
         
         const data = await response.json();
-        addMessageToChat('ai', data.reply);
+        addMessageToChat('ai', data.reply || data.error);
     } catch (error) {
         console.error("Error:", error);
         addMessageToChat('ai', "Maaf, terjadi kesalahan saat berkomunikasi.");
@@ -47,7 +47,22 @@ chatForm.addEventListener('submit', async (e) => {
 function addMessageToChat(sender, text) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', sender);
-    messageElement.textContent = text;
+    
+    // Jika pesan dari AI, ubah teks Markdown menjadi HTML yang rapi
+    if (sender === 'ai') {
+        if (typeof marked !== 'undefined') {
+            messageElement.innerHTML = marked.parse(text);
+        } else {
+            // Fallback sederhana jika marked.js belum terawat
+            let formattedText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            messageElement.innerHTML = formattedText;
+        }
+    } else {
+        messageElement.textContent = text;
+    }
+
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
 }
