@@ -2,7 +2,6 @@ const { GoogleGenAI } = require('@google/genai');
 require('dotenv').config();
 
 exports.handler = async (event, context) => {
-  // Hanya menerima HTTP Method POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -10,14 +9,13 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Ambil API Key murni dari environment variable
+  // 1. Guard check untuk API Key
   const apiKey = process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    console.error('ERROR: GEMINI_API_KEY tidak ditemukan di environment variables.');
+  if (!apiKey || apiKey.trim() === '') {
+    console.error('=== ERROR: GEMINI_API_KEY tidak terbaca oleh Netlify CLI! ===');
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'API Key Gemini belum terkonfigurasi di server.' }),
+      body: JSON.stringify({ error: 'GEMINI_API_KEY belum terdeteksi di environment lokal.' }),
     };
   }
 
@@ -55,10 +53,7 @@ Edukasi: Software Engineering dari Politeknik Negeri Indramayu.
 Anda harus menjawab pertanyaan pengguna berdasarkan informasi di atas, menjaga nada profesional dan ramah. Jika pertanyaan pengguna berada di luar cakupan informasi ini, berikan respons yang sopan dan relevan.`;
 
   try {
-    // Inisialisasi GoogleGenAI SDK terbaru
     const ai = new GoogleGenAI({ apiKey: apiKey });
-
-    // Memanggil model gemini-3.6-flash
     const response = await ai.models.generateContent({
       model: 'gemini-3.6-flash',
       contents: message,
