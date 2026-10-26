@@ -1,4 +1,4 @@
-const { GoogleGenAI } = require('@google/genai');
+const OpenAI = require('openai');
 require('dotenv').config();
 
 exports.handler = async (event, context) => {
@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
 
   // =========================================================================
   // TOGGLE MODE UJI COBA (MOCK MODE)
-  // Ubah ke 'false' agar terhubung ke Google Gemini API secara langsung
+  // Ubah ke 'false' agar terhubung ke Groq API secara langsung
   // =========================================================================
   const MOCK_MODE = false;
 
@@ -28,15 +28,15 @@ exports.handler = async (event, context) => {
   }
 
   // =========================================================================
-  // KODE EKSEKUSI API GEMINI ASLI
+  // KODE EKSEKUSI API GROQ
   // =========================================================================
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey || apiKey.trim() === '') {
-    console.error('=== ERROR: GEMINI_API_KEY tidak terbaca oleh Netlify CLI! ===');
+    console.error('=== ERROR: GROQ_API_KEY tidak terbaca di environment! ===');
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'GEMINI_API_KEY belum terdeteksi di environment.' }),
+      body: JSON.stringify({ error: 'GROQ_API_KEY belum terdeteksi di environment.' }),
     };
   }
 
@@ -77,16 +77,22 @@ ATURAN FORMATTING RESPONS:
 3. Jawab pertanyaan pengguna berdasarkan informasi di atas dengan ramah dan profesional.`;
 
   try {
-    const ai = new GoogleGenAI({ apiKey: apiKey });
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: message,
-      config: {
-        systemInstruction: systemInstruction,
-        maxOutputTokens: 512,
-        temperature: 0.6,
-      },
+    const groq = new OpenAI({
+      apiKey: apiKey,
+      baseURL: 'https://api.groq.com/openai/v1',
     });
+
+    const completion = await groq.chat.completions.create({
+      model: 'openai/gpt-oss-20b',
+      messages: [
+        { role: 'system', content: systemInstruction },
+        { role: 'user', content: message },
+      ],
+      max_tokens: 512,
+      temperature: 0.6,
+    });
+
+    const replyText = completion.choices[0]?.message?.content || '';
 
     return {
       statusCode: 200,
@@ -94,18 +100,18 @@ ATURAN FORMATTING RESPONS:
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ reply: response.text }),
+      body: JSON.stringify({ reply: replyText }),
     };
 
   } catch (error) {
-    console.error('=== GEMINI ERROR DETAIL ===');
+    console.error('=== GROQ ERROR DETAIL ===');
     console.error(error);
-    console.error('===========================');
+    console.error('=========================');
 
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: 'Terjadi kesalahan saat menghubungi API.',
+        error: 'Terjadi kesalahan saat menghubungi API Groq.',
         details: error.message || String(error),
       }),
     };
